@@ -1,25 +1,20 @@
-name: Super-Linter
-
-# Run this workflow every time a new commit pushed to your repository
-on: push
-
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master
 jobs:
-  # Set the job key. The key is displayed as the job name
-  # when a job name is not provided
-  super-lint:
-    # Name the Job
-    name: Lint code base
-    # Set the type of machine to run on
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-      # Checks out a copy of your repository on the ubuntu-latest machine
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Runs the Super-Linter action
-      - name: Run Super-Linter
-        uses: github/super-linter@v3
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: All things angular
+      uses: AhsanAyaz/angular-deploy-gh-pages-actions
+      with:
+        github_access_token: 861faf089b1e5272a7eecb0c26d9cddf6e4e109e # see the Configuration section for how you can create secrets
+        build_configuration: staging # The build environment for the app. please look configurations in your angular.json
+        base_href: https://smarti04.github.io/smartisPortfolio/
+        deploy_branch: gh-pages # The branch the action should deploy to.
+        angular_dist_build_folder: dist/my-project # The folder where your project is supposed to be after running ng build by the action.
